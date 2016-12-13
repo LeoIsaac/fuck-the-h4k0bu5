@@ -1,0 +1,28 @@
+version: '2'
+services:
+  app:
+    container_name: h4k0bu5_app
+    image: python:3.5.2-alpine
+    volumes:
+      - ./app/:/mnt/
+    working_dir: /mnt
+    environment:
+      - FLASK_APP=main.py
+    expose:
+      - 5000
+    tty: true
+    command: ash -c 'pip install Flask && ash'
+
+  serve:
+    container_name: h4k0bu5_serve
+    image: nginx:1.11.5-alpine
+    volumes:
+      - ./serve/default.conf:/etc/nginx/conf.d/default.conf
+      #- ./serve/keys/:/usr/share/nginx/keys/
+      - ./htdocs/:/mnt/
+    ports:
+      - 80:80
+      #- 443:443
+    links:
+      - app
+    command: nginx -g 'daemon off';
