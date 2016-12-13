@@ -1,0 +1,22 @@
+{
+  "name": "htdocs",
+  "homepage": "https://github.com/LeoIsaac/fuck-the-h4k0bu5",
+  "description": "",
+  "main": "index.html",
+  "authors": [
+    "Isaac"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "webcomponentsjs": "^0.7.23",
+    "polymer": "^1.7.0",
+    "app-layout": "PolymerElements/app-layout#^0.10.6"
+  }
+}

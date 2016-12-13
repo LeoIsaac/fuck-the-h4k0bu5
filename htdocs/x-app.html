@@ -1,0 +1,34 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+
+<link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="bower_components/app-layout/demo/sample-content.html">
+
+<dom-module id="x-app">
+  <template>
+    <style>
+    app-toolbar {
+      background-color: #1E88E5;
+      color: white;
+      --app-toolbar-font-size: 24px;
+    }
+    </style>
+
+    <app-header-layout>
+      <app-header reveals effects="waterfall">
+        <app-toolbar>
+          <div main-title>H4k0bu5</div>
+        </app-toolbar>
+      </app-header>
+    </app-header-layout>
+    <sample-content size="20"></sample-content>
+  </template>
+
+  <script>
+  Polymer({
+    is: 'x-app'
+  });
+  </script>
+</dom-module>
