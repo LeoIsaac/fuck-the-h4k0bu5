@@ -5,8 +5,7 @@
 <link rel="import" href="bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
-<link rel="import" href="bower_components/paper-input/paper-input-container.html">
-<link rel="import" href="bower_components/iron-input/iron-input.html">
+<link rel="import" href="bower_components/vaadin-combo-box/vaadin-combo-box.html">
 <link rel="import" href="bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
@@ -32,27 +31,25 @@
         </app-toolbar>
       </app-header>
     </app-header-layout>
-    <paper-input-container>
-      <label>乗車</label>
-      <input is="iron-input" bind-value="{{origin::input}}" list="origin">
-      <datalist id="origin">
-        <template is="dom-repeat" items="[[suggest-stop.origin]]">
-          <option value="[[item.stop]]"></option>
-        </template>
-      </datalist>
-    </paper-input-container>
+    <vaadin-combo-box
+      label="乗車"
+      on-value-changed="_originChanged"
+      item-label-path="stop"
+      item-value-path="stop"
+      items="[[suggest-stop.origin]]"
+      allow-custom-value>
+    </vaadin-combo-box>
     <div class="center">
       <iron-icon icon="icons:arrow-downward"></iron-icon>
     </div>
-    <paper-input-container>
-      <label>降車</label>
-      <input is="iron-input" bind-value="{{destination::input}}" list="destination">
-      <datalist id="destination">
-        <template is="dom-repeat" items="[[suggest-stop.destination]]">
-          <option value="[[item.stop]]"></option>
-        </template>
-      </datalist>
-    </paper-input-container>
+    <vaadin-combo-box
+      label="降車"
+      on-value-changed="_destinationChanged"
+      item-label-path="stop"
+      item-value-path="stop"
+      items="[[suggest-stop.destination]]"
+      allow-custom-value>
+    </vaadin-combo-box>
 
     <iron-ajax auto
       url="/api/suggest-stop"
@@ -65,6 +62,13 @@
   <script>
   Polymer({
     is: 'x-app',
+
+    _originChanged: function(e) {
+      this.origin = e.detail.value;
+    },
+    _destinationChanged: function(e) {
+      this.destination = e.detail.value;
+    },
 
     _suggestParam: function(origin, destination) {
       return {"origin": origin, "destination": destination};
