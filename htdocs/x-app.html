@@ -1,11 +1,14 @@
 <link rel="import" href="bower_components/polymer/polymer.html">
 
+<link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="bower_components/paper-input/paper-input-container.html">
 <link rel="import" href="bower_components/iron-input/iron-input.html">
+<link rel="import" href="bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
 
 <dom-module id="x-app">
@@ -15,6 +18,10 @@
       background-color: #1E88E5;
       color: white;
       --app-toolbar-font-size: 24px;
+    }
+    .center {
+      @apply(--layout-horizontal);
+      @apply(--layout-center-justified);
     }
     </style>
 
@@ -34,6 +41,9 @@
         </template>
       </datalist>
     </paper-input-container>
+    <div class="center">
+      <iron-icon icon="icons:arrow-downward"></iron-icon>
+    </div>
     <paper-input-container>
       <label>降車</label>
       <input is="iron-input" bind-value="{{destination::input}}" list="destination">
