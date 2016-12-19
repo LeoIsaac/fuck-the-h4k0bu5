@@ -4,7 +4,9 @@
 <link rel="import" href="bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
-<link rel="import" href="bower_components/app-layout/demo/sample-content.html">
+<link rel="import" href="bower_components/paper-input/paper-input-container.html">
+<link rel="import" href="bower_components/iron-input/iron-input.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
 
 <dom-module id="x-app">
   <template>
@@ -23,12 +25,40 @@
         </app-toolbar>
       </app-header>
     </app-header-layout>
-    <sample-content size="20"></sample-content>
+    <paper-input-container>
+      <label>乗車</label>
+      <input is="iron-input" bind-value="{{origin::input}}" list="origin">
+      <datalist id="origin">
+        <template is="dom-repeat" items="[[suggest-stop.origin]]">
+          <option value="[[item.stop]]"></option>
+        </template>
+      </datalist>
+    </paper-input-container>
+    <paper-input-container>
+      <label>降車</label>
+      <input is="iron-input" bind-value="{{destination::input}}" list="destination">
+      <datalist id="destination">
+        <template is="dom-repeat" items="[[suggest-stop.destination]]">
+          <option value="[[item.stop]]"></option>
+        </template>
+      </datalist>
+    </paper-input-container>
+
+    <iron-ajax auto
+      url="/api/suggest-stop"
+      params="{{_suggestParam(origin, destination)}}"
+      debounce-duration="1000"
+      last-response="{{suggest-stop}}">
+    </iron-ajax>
   </template>
 
   <script>
   Polymer({
-    is: 'x-app'
+    is: 'x-app',
+
+    _suggestParam: function(origin, destination) {
+      return {"origin": origin, "destination": destination};
+    }
   });
   </script>
 </dom-module>
