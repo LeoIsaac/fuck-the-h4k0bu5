@@ -10,16 +10,16 @@ def index():
 
 @app.route("/suggest-stop")
 def index_suggest():
-    origin = request.args.get('origin', '')
-    destination = request.args.get('destination', '')
-    json = Suggest().getSuggest(origin, destination)
+    ori = request.args.get('origin', '')
+    des = request.args.get('destination', '')
+    json = Suggest(ori, des).getSuggest()
     return jsonify(json)
 
 @app.route("/decision-stop")
 def index_decision():
-    origin = request.args.get('origin', '')
-    destination = request.args.get('destination', '')
-    json = Suggest().getDecision(origin, destination)
+    ori = request.args.get('origin', '')
+    des = request.args.get('destination', '')
+    json = Suggest(ori, des).getDecision()
     return jsonify(json)
 
 if __name__ == "__main__":
