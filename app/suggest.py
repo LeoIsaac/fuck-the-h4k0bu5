@@ -23,3 +23,7 @@ class Suggest:
         json["origin"] = origin
         json["destination"] = destination
         return json
+
+
+    def getDecision(self, ori:str, des:str) -> dict:
+        return "Hello"

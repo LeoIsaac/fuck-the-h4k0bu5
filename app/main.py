@@ -15,5 +15,12 @@ def index_suggest():
     json = Suggest().getSuggest(origin, destination)
     return jsonify(json)
 
+@app.route("/decision-stop")
+def index_decision():
+    origin = request.args.get('origin', '')
+    destination = request.args.get('destination', '')
+    json = Suggest().getDecision(origin, destination)
+    return jsonify(json)
+
 if __name__ == "__main__":
     app.run()

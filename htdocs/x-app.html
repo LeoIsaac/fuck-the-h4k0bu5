@@ -36,7 +36,7 @@
       on-value-changed="_originChanged"
       item-label-path="stop"
       item-value-path="stop"
-      items="[[suggest-stop.origin]]"
+      items="[[suggestStop.origin]]"
       allow-custom-value>
     </vaadin-combo-box>
     <div class="center">
@@ -47,15 +47,22 @@
       on-value-changed="_destinationChanged"
       item-label-path="stop"
       item-value-path="stop"
-      items="[[suggest-stop.destination]]"
+      items="[[suggestStop.destination]]"
       allow-custom-value>
     </vaadin-combo-box>
 
     <iron-ajax auto
       url="/api/suggest-stop"
-      params="{{_suggestParam(origin, destination)}}"
+      params="{{_apiParam(origin, destination)}}"
       debounce-duration="1000"
-      last-response="{{suggest-stop}}">
+      on-response="_handleSuggest"
+      last-response="{{suggestStop}}">
+    </iron-ajax>
+
+    <iron-ajax id="decision"
+      url="/api/decision-stop"
+      params="{{_apiParam(origin, destination)}}"
+      last-response="{{decisionStop}}">
     </iron-ajax>
   </template>
 
@@ -70,8 +77,14 @@
       this.destination = e.detail.value;
     },
 
-    _suggestParam: function(origin, destination) {
+    _apiParam: function(origin, destination) {
       return {"origin": origin, "destination": destination};
+    },
+
+    _handleSuggest: function() {
+      if(this.suggestStop.origin.length == 1 && this.suggestStop.destination.length == 1) {
+        this.$.decision.generateRequest();
+      }
     }
   });
   </script>
