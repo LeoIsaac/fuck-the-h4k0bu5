@@ -48,7 +48,7 @@ class Suggest:
                 if i == 4: railroad["goal"] = td.string
                 if i == 7: railroad["state"] = td.string
 
-            if len(railroad) == 1:
+            if "time" in railroad:
                 json.append(railroad)
     
         return json
