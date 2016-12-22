@@ -1,0 +1,98 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+
+<link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="bower_components/vaadin-combo-box/vaadin-combo-box.html">
+<link rel="import" href="bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="bower_components/paper-spinner/paper-spinner.html">
+
+<dom-module id="x-app">
+  <template>
+    <style>
+    app-toolbar {
+      background-color: #1E88E5;
+      color: white;
+      --app-toolbar-font-size: 24px;
+    }
+    .center {
+      @apply(--layout-horizontal);
+      @apply(--layout-center-justified);
+    }
+    </style>
+
+    <app-header-layout>
+      <app-header reveals effects="waterfall">
+        <app-toolbar>
+          <div main-title>H4k0bu5</div>
+        </app-toolbar>
+      </app-header>
+    </app-header-layout>
+    <vaadin-combo-box
+      label="乗車"
+      on-value-changed="_originChanged"
+      item-label-path="stop"
+      item-value-path="stop"
+      items="[[suggestStop.origin]]"
+      allow-custom-value>
+    </vaadin-combo-box>
+    <div class="center">
+      <iron-icon icon="icons:arrow-downward"></iron-icon>
+      <paper-spinner active="[[decisionLoading]]"></paper-spinner>
+    </div>
+    <vaadin-combo-box
+      label="降車"
+      on-value-changed="_destinationChanged"
+      item-label-path="stop"
+      item-value-path="stop"
+      items="[[suggestStop.destination]]"
+      allow-custom-value>
+    </vaadin-combo-box>
+
+    <iron-ajax auto
+      url="/api/suggest-stop"
+      params="{{_apiParam(origin, destination)}}"
+      debounce-duration="1000"
+      on-response="_handleSuggest"
+      last-response="{{suggestStop}}">
+    </iron-ajax>
+
+    <template is="dom-repeat" items="{{decisionStop}}">
+      <p>[[item.time]]発、[[item.goal]]行き　[[item.state]]</p>
+    </template>
+
+    <iron-ajax id="decision"
+      url="/api/decision-stop"
+      params="{{_apiParam(origin, destination)}}"
+      loading="{{decisionLoading}}"
+      last-response="{{decisionStop}}">
+    </iron-ajax>
+  </template>
+
+  <script>
+  Polymer({
+    is: 'x-app',
+
+    _originChanged: function(e) {
+      this.origin = e.detail.value;
+    },
+    _destinationChanged: function(e) {
+      this.destination = e.detail.value;
+    },
+
+    _apiParam: function(origin, destination) {
+      return {"origin": origin, "destination": destination};
+    },
+
+    _handleSuggest: function() {
+      if(this.suggestStop.origin.length == 1 && this.suggestStop.destination.length == 1) {
+        this.$.decision.generateRequest();
+      }
+    }
+  });
+  </script>
+</dom-module>

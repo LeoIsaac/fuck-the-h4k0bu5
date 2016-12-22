@@ -2,7 +2,7 @@ version: '2'
 services:
   app:
     container_name: h4k0bu5_app
-    image: python:3.5.2-alpine
+    build: ./app
     volumes:
       - ./app/:/mnt/
     working_dir: /mnt
@@ -11,7 +11,7 @@ services:
     expose:
       - 5000
     tty: true
-    command: ash -c 'pip install Flask && ash'
+    command: python -m flask run --host=0.0.0.0
 
   serve:
     container_name: h4k0bu5_serve
