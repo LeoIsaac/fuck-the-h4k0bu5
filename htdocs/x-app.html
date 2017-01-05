@@ -23,6 +23,10 @@
       @apply(--layout-horizontal);
       @apply(--layout-center-justified);
     }
+    a {
+      color: black;
+      text-decoration: none;
+    }
     </style>
 
     <app-header-layout>
@@ -62,7 +66,9 @@
     </iron-ajax>
 
     <template is="dom-repeat" items="{{decisionStop}}">
-      <p>[[item.time]]発、[[item.goal]]行き　[[item.state]]</p>
+      <p><a href="[[item.route]]" target="_blank">
+        [[item.time]]発、[[item.goal]]行き　[[item.state]]
+      </a></p>
     </template>
 
     <iron-ajax id="decision"

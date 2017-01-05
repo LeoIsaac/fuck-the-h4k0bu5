@@ -46,9 +46,10 @@ class Suggest:
             for i, td in enumerate(tr.find_all("td")):
                 if i == 1: railroad["time"] = td.string
                 if i == 4: railroad["goal"] = td.string
+                if i == 5: railroad["route"] = "http://www.hakobus.jp/" + td.a['href']
                 if i == 7: railroad["state"] = td.string
 
             if "time" in railroad:
                 json.append(railroad)
-    
+
         return json
